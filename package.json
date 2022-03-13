@@ -1,0 +1,15 @@
+{
+  "name": "rds",
+  "version": "1.0.0",
+  "description": "RDS App Front End",
+  "type": "module",
+  "dependencies": {
+    "babylonjs": "^4.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ahmed El Shafie",
+  "license": "ISC"
+}

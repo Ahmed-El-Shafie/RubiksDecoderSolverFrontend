@@ -1,0 +1,444 @@
+html,
+body {
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background: linear-gradient(0deg, #1e2946 0%, rgba(70, 95, 164, 1) 100%);
+	user-select: none;
+}
+
+#canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+}
+
+#title {
+	width: 75%;
+	position: absolute;
+	text-align: center;
+	top: -4%;
+	left: 50%;
+	color: white;
+	font-size: 9.5vh;
+	transform: translateX(-50%);
+	font-family: "Showcard Gothic";
+	text-shadow: 3px 3px black, 3px -3px black, -3px -3px black, -3px 3px black;
+}
+
+#infoModalContainer {
+	position: absolute;
+	display: block;
+	pointer-events: auto;
+	top: 15%;
+	left: 51%;
+	width: 58.6%;
+	transform: translateX(-50%);
+	z-index: -1;
+	height: 75%;
+	opacity: 0;
+	transition: opacity .3s ease;
+}
+
+.infoModal {
+	display: none;
+	width: 100%;
+	height: 100%;
+	text-align: left;
+	color: white;
+	font-size: 3.6vh;
+	font-family: "Showcard Gothic";
+	text-shadow: .23vh .23vh black, -.23vh .23vh black, -.23vh -.23vh black, .23vh -.23vh black;
+}
+
+#infoPageNavigator {
+	display: block;
+	position: absolute;
+	bottom: -7%;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.infoPageArrow {
+	background-color: transparent;
+	border: none;
+	display: inline;
+	font-size: 4.4vh;
+	color: white;
+	cursor: pointer;
+	text-shadow: 2px 2px black, -2px 2px black, -2px -2px black, 2px -2px black;
+}
+
+.infoPageArrow:hover {
+	transform: scale(1.2);
+}
+
+.infoPageArrow:disabled {
+	opacity: 0;
+	cursor: auto;
+	pointer-events: none;
+}
+
+#infoPageNumber {
+	font-size: 3.7vh;
+	color: white;
+	cursor: pointer;
+	text-shadow: 2px 2px black, -2px 2px black, -2px -2px black, 2px -2px black;
+	font-family: "Showcard Gothic";
+	pointer-events: none;
+}
+
+#colorSelector {
+	width: 32.2%;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 15%;
+	border-radius: 2.3%/15.9%;
+	border: .23vw solid black;
+	background-color: steelblue;
+	display: block;
+	text-align: center;
+	padding: .6%;
+}
+
+.colorButton {
+	height: 4vw;
+	width: 4vw;
+	border-color: transparent;
+	border-radius: 10%;
+	cursor: pointer;
+	display: inline-block;
+	margin: .45%;
+	font-size: 3.2vw;
+	color: darkred;
+	vertical-align: middle;
+}
+
+.colorButton.active {
+	border: .4vw solid black;
+}
+
+#blankSquare.active {
+	border: .4vw solid white;
+}
+
+.mainButton {
+	border: none;
+	outline: .5vh solid black;
+	border-radius: 5.3%/13.3%;
+	color: white;
+	font-weight: bold;
+	font-family: "Showcard Gothic";
+	position: absolute;
+	display: block;
+	cursor: pointer;
+	transform: translateY(0px);
+	text-shadow: .27vh .27vh black, -.27vh .27vh black, -.27vh -.27vh black, .27vh -.27vh black;
+}
+	
+.mainButton:active {
+	cursor: auto;
+	outline: none;
+	transform: translateY(.4vh);
+}
+
+#infoButton {
+	top: 16%;
+	font-size: 3.5vh;
+	left: 20%;
+	width: 5.9%;
+	height: 5.2%;
+	z-index: 2;
+}
+
+#infoButton:enabled {
+	background: steelblue;
+}
+
+#infoButton:hover {
+	background: white;
+	color: steelblue;
+}
+
+#solveButton {
+	padding: .39%;
+	bottom: 22%;
+	font-size: 4vh;
+	left: 50%;
+	height: 11%;
+	width: 12.4%;
+	margin-left: -6.2%
+}
+
+#solveButton:enabled {
+	background: #03C03C;
+}
+
+#solveButton:hover {
+	background: white;
+	color: #03C03C;
+}
+
+#solveButton.error {
+	font-size: 3.8vh;
+}
+
+#scrambleButton {
+	bottom: 11%;
+	font-size: 3.5vh;
+	left: 50%;
+	width: 11%;
+	height: 7.8%;
+	margin-left: -5.5%;
+}
+
+#scrambleButton:enabled {
+	background: #0039a6;
+}
+
+#scrambleButton:hover {
+	background: white;
+	color: #0039a6;
+}
+
+#resetButton {
+	bottom: 4%;
+	font-size: 3.1vh;
+	left: 50%;
+	width: 7.3%;
+	height: 3.9%;
+	margin-left: -3.65%;
+}
+
+#resetButton:enabled {
+	background: #B31B1B;
+}
+
+#resetButton:hover {
+	background: white;
+	color: #B31B1B;
+}
+
+#backButton {
+	display: none;
+	font-size: 3.3vh;
+	width: 11%;
+	height: 9.3%;
+	left: 19%;
+	bottom: 5%;
+}
+
+#backButton:enabled {
+	background: orange;
+}
+
+#backButton:hover {
+	background: white;
+	color: orange;
+}
+
+.mainButton:disabled {
+	background: grey;
+	cursor: auto;
+	pointer-events: none;
+}
+
+.mainButton.loading {
+	cursor: auto;
+	box-shadow: 0 0px;
+	transform: translateY(3px);
+	background: white;
+}
+
+#solveLoadingIcon {
+	display: inline-block;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+	vertical-align: middle;
+	width: 3vw;
+	height: 3vw;
+	border-bottom: .6vw solid #03C03C;
+	border-top: .6vw solid black;
+	border-right: .6vw solid black;
+	border-left: .6vw solid black;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+#playbackSettingsMenu {
+	display: none;
+	position: absolute;
+	top: 15%;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.playbackSetting {
+	display: inline-block;
+	padding: 1.4vh;
+	text-align: center;
+	font-size: 3.7vh;
+	font-family: "Showcard Gothic";
+	color: white;
+	border: none;
+	border-radius: 10%;
+	width: 17.6vw;
+	background-color: steelblue;
+	text-shadow: .27vh .27vh black, -.27vh .27vh black, -.27vh -.27vh black, .27vh -.27vh black;
+}
+
+.playbackSettingsArrow {
+	background-color: transparent;
+	border: none;
+	display: inline;
+	font-size: 4.1vh;
+	color: white;
+	cursor: pointer;
+	text-shadow: .27vh .27vh black, -.27vh .27vh black, -.27vh -.27vh black, .27vh -.27vh black;
+}
+
+.playbackSettingsArrow:hover {
+	transform: scale(1.2);
+}
+
+.playbackSettingsArrow:disabled {
+	opacity: 0;
+	cursor: auto;
+	pointer-events: none;
+}
+
+#moveDescriptionContainer {
+	display: none;
+	position: absolute;
+	bottom: 20%;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+}
+
+#moveDescription {
+	display: inline-block;
+	font-weight: bold;
+	font-family: "Showcard Gothic";
+	font-size: 4vh;
+	border-radius: 10%;
+	color: white;
+	background: steelblue;
+	padding: .7vw;
+	text-shadow: .27vh .27vh black, -.27vh .27vh black, -.27vh -.27vh black, .27vh -.27vh black;
+}
+
+#playbackMeterContainer {
+	display: none;
+	position: absolute;
+	text-align: center;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: 17%;
+	width: 29vw;
+	height: 1vh;
+	background-color: black;
+	border-radius: 3px;
+}
+
+#playbackMeter {
+	display: block;
+	text-align: left;
+	background-color: steelblue;
+	border-radius: 3px;
+	height: 100%;
+	width: 0%;
+}
+
+#playbackPauseMeterContainer {
+	display: none;
+	position: absolute;
+	bottom: 15.5%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 15vw;
+	height: 1vh;
+	background-color: black;
+	border-radius: 3px;
+}
+
+#playbackPauseMeter {
+	display: block;
+	text-align: left;
+	background-color: lightgray;
+	border-radius: 3px;
+	height: 100%;
+	width: 0%;
+}
+
+#playbackControls {
+	display: none;
+	position: absolute;
+	text-align: center;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: 4.8%;
+}
+
+.playbackButton {
+	color: white;
+	display: inline;
+	cursor: pointer;
+	border: none;
+	padding: .7vw;
+	font-size: 6.8vh;
+	margin-left: .7vw;
+	margin-right: .7vw;
+	background: steelblue;
+	border-radius: 10%;
+	box-shadow: .27vh .27vh black, -.27vh .27vh black, -.27vh -.27vh black, .27vh -.27vh black;
+}
+
+.playbackButton:active {
+	color: lightgray;
+}
+
+.playbackButton:hover {
+	transform: scale(1.07);
+}
+
+#playButton {
+	padding-left: 1.4vw;
+	padding-right: 1.4vw;
+}
+
+#playButton:enabled {
+	background: #03C03C;
+}
+
+.playbackButton:disabled {
+	background: grey;
+	cursor: auto;
+	transform: none;
+}
+
+.colorCursor {
+	width: 4vw;
+	height: 4vw;
+	position: fixed;
+	border-radius: 10%;
+	border: .2vw solid white;
+	pointer-events: none;
+	opacity: 0;
+}
+
+.dragCursor {
+	cursor: move;
+}

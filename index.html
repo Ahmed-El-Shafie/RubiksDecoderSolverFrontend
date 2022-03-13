@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Rubik's Decoder Solver</title>
+	<meta name="author" content="Ahmed El Shafie">
+	<meta name="description" content="The Rubik's Decoder Solver helps you solve the Rubik's decoder
+	(and similar puzzles such as the `Rubik's Hex`, `Whip-It`, & `Babylon Tower`).">
+	<script src="https://use.fontawesome.com/3304d8bd88.js"></script>
+	<link rel="stylesheet" href="/css/main.css">
+	<script src="node_modules/babylonjs/babylon.js"></script>
+</head>
+
+<body>
+	<canvas id="canvas"></canvas>
+	<audio id="hoverSound" src="/sounds/hover_sound.mp3"></audio>
+	<audio id="clickSound" src="/sounds/click_sound.mp3"></audio>
+	<audio id="colorSelect" src="/sounds/water_drip.mp3"></audio>
+	<audio id="colorApply" src="/sounds/bubble_burst.mp3"></audio>
+	<audio id="solvedJingle" src="/sounds/solved.mp3"></audio>
+	<script src="/js/button_helpers.js"></script>
+
+	<h1 id="title">
+		<font color="red">R</font>
+		<font color="blue">U</font>
+		<font color="orange">B</font>
+		<font color="yellow">I</font>
+		<font color="#00FF00">K</font>
+		'S DECODER SOLVER
+	</h1>
+	<button onmouseover="buttonHover(this)" onmousedown="buttonClick(this)" id="infoButton"
+		class="mainButton">INFO</button>
+	<div id="infoModalContainer">
+		<div class="infoModal">
+			<h2 style="margin: 0px; text-align: center;">WELCOME!</h2>
+			<p>
+				Welcome to the Rubik's Decoder Solver! This tool helps you solve a Rubik's decoder from a given
+				configuration. It's also a simulator to play around with.
+			</p>
+			<p>
+				This website is NOT affiliated with the Rubik's brand in any way. This is simply a fan project based on
+				the puzzle.
+			</p>
+			<p>
+				This type of puzzle has other names such as the "Rubik's Hex", "Whip-It", & "Babylon Tower". There are 3
+				rows and 6 columns with each row being rotatable.
+				For each of the 6 colors, there are 3 tiles, except for white. There are only 2 white tiles because
+				there's a blank space
+				to slide tiles up and down into. The goal is for each column to have 3 of the same color with one of the
+				columns having 2 white tiles and a blank space.
+			</p>
+		</div>
+		<div class="infoModal">
+			<h2 style="margin: 0px; text-align: center;">SETTINGS</h2>
+			<p>
+				I would really appreciate if you disabled <span style="color: red;">AdBlock</span> for this site and
+				refresh.
+				I put the ads on the sides where they won't bother you. Just them appearing there helps generate revenue
+				which would go
+				a long way to making this project feel worth the effort. Ads store cookies on the browser so they can be
+				tailored to you, but no
+				identifying data is collected.
+			</p>
+			<p>
+				If you're using Chrome, make sure to turn on "Hardware Acceleration" or the decoder may appear laggy.
+			</p>
+			<p>
+				For the optimal experience, please use PC instead of mobile, and use one of Chrome, Firefox, or Edge.
+			</p>
+		</div>
+		<div class="infoModal">
+			<h2 style="margin: 0px; text-align: center;">INSTRUCTIONS</h2>
+			<p>
+				Use the color selector to input your desired configuration,
+				then click <span style="color: #03C03C;">SOLVE FOR ME</span> to play back the solution in an average of
+				21-23 moves. It'll only work
+				if your configuration is valid. There are indicators for when you need more <span class="fa fa-caret-up"
+					style="text-shadow: 0 0px; color:darkred; font-size: 33px;"></span>
+				or less <span class="fa fa-caret-down"
+					style="text-shadow: 0 0px; color:darkred; font-size: 33px;"></span> of certain colors.
+			</p>
+			<p>
+				You can adjust playback speed and enable pauses in between moves to make them easier to follow
+				and give you time to input them into your physical decoder if you have one.
+			</p>
+			<p>
+				Hold and drag your mouse to rotate and slide squares.
+			</p>
+			<p>
+				You can click <span style="color: #0039a6;">SCRAMBLE</span> and maybe challenge yourself to solve it.
+			</p>
+		</div>
+		<div id="infoPageNavigator">
+			<button onmouseover="playHoverSound()" onclick="playClickSound()" class="infoPageArrow fa fa-angle-left"
+				disabled></button>
+			<span id="infoPageNumber"></span>
+			<button onmouseover="playHoverSound()" onclick="playClickSound()"
+				class="infoPageArrow fa fa-angle-right"></button>
+		</div>
+	</div>
+	</div>
+	<div id="colorSelector">
+		<button id="redSquare" class="fa colorButton" style="background-color: red" numUsed="3"></button>
+		<button id="blueSquare" class="fa colorButton" style="background-color: blue" numUsed="3"></button>
+		<button id="orangeSquare" class="fa colorButton" style="background-color: rgb(255, 100, 0)"
+			numUsed="3"></button>
+		<button id="yellowSquare" class="fa colorButton" style="background-color: yellow" numUsed="3"></button>
+		<button id="greenSquare" class="fa colorButton" style="background-color: rgb(0, 255, 0)" numUsed="3"></button>
+		<button id="whiteSquare" class="fa colorButton" style="background-color: white" numUsed="2"></button>
+		<button id="blankSquare" class="fa colorButton" style="background-color: black" numUsed="1"></button>
+	</div>
+	<button onmouseover="buttonHover(this)" onmousedown="buttonClick(this)" id="solveButton" class="mainButton">SOLVE
+		FOR ME</button>
+	<button onmouseover="buttonHover(this)" onmousedown="buttonClick(this)" id="scrambleButton"
+		class="mainButton">SCRAMBLE</button>
+	<button onmouseover="buttonHover(this)" onmousedown="buttonClick(this)" id="resetButton"
+		class="mainButton">RESET</button>
+
+	<div id="playbackSettingsMenu">
+		<button onmouseover="playHoverSound()" onclick="playClickSound()"
+			class="playbackSettingsArrow fa fa-angle-left"></button>
+		<span class="playbackSetting">SPEED: NORMAL</span>
+		<button onmouseover="playHoverSound()" onclick="playClickSound()"
+			class="playbackSettingsArrow fa fa-angle-right"></button>
+		<button onmouseover="playHoverSound()" onclick="playClickSound()"
+			class="playbackSettingsArrow fa fa-angle-left"></button>
+		<span class="playbackSetting">PAUSES: OFF</span>
+		<button onmouseover="playHoverSound()" onclick="playClickSound()"
+			class="playbackSettingsArrow fa fa-angle-right"></button>
+	</div>
+	<div id="moveDescriptionContainer"><span id="moveDescription"></span></div>
+	<div id="playbackMeterContainer">
+		<span id="playbackMeter"></span>
+	</div>
+	<div id="playbackPauseMeterContainer">
+		<span id="playbackPauseMeter"></span>
+	</div>
+	<button onmouseover="buttonHover(this)" onmousedown="buttonClick(this)" id="backButton" class="mainButton">BACK TO
+		EDITING</button>
+	<div id="playbackControls">
+		<button onmouseover="playHoverSound()" onclick="playClickSound()" id="firstButton"
+			class="playbackButton fa fa-fast-backward"></button>
+		<button onmouseover="playHoverSound()" onclick="playClickSound()" id="previousButton"
+			class="playbackButton fa fa-step-backward"></button>
+		<button onmouseover="playHoverSound()" onclick="playClickSound()" id="playButton"
+			class="playbackButton fa fa-play"></button>
+		<button onmouseover="playHoverSound()" onclick="playClickSound()" id="nextButton"
+			class="playbackButton fa fa-step-forward"></button>
+		<button onmouseover="playHoverSound()" onclick="playClickSound()" id="lastButton"
+			class="playbackButton fa fa-fast-forward"></button>
+	</div>
+
+	<script src="/js/index.js" type="module"></script>
+</body>
+
+</html>
