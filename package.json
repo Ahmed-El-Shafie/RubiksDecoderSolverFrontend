@@ -4,10 +4,12 @@
   "description": "RDS App Front End",
   "type": "module",
   "dependencies": {
-    "babylonjs": "^4.2.0"
+    "babylonjs": "^4.2.0",
+    "http-server": "^14.1.0"
   },
   "devDependencies": {},
   "scripts": {
+    "start": "http-server -p process.env.PORT",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ahmed El Shafie",
