@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "http-server -p process.env.PORT",
+    "start": "http-server -a 0.0.0.0 -p process.env.PORT",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ahmed El Shafie",
