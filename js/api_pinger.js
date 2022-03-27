@@ -1,6 +1,6 @@
 import { solveButton } from './elements.js';
 
-export const api = "http://localhost:8080/";
+export const api = "https://rubiksdecodersolverapi.herokuapp.com/";
 
 export function pingApi() {
 	if (solveButton.innerText == "OUT OF ORDER") {

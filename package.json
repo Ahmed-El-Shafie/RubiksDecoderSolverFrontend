@@ -5,11 +5,11 @@
   "type": "module",
   "dependencies": {
     "babylonjs": "^4.2.0",
-    "http-server": "^14.1.0"
+    "express": "^4.17.3"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "http-server -a 0.0.0.0 -p process.env.PORT",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ahmed El Shafie",
