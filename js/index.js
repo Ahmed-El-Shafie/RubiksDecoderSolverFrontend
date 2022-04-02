@@ -11,10 +11,6 @@ import { startDemoRotation, interruptDemoRotation } from './demo_rotation_helper
 import { validColors, getSolution, solutionPlaybackMode } from './solution_helpers.js';
 import { mod, getColNumRotation } from './math_helpers.js';
 
-if (window.location.hostname != "localhost" && window.location.protocol != "https") {
-	window.location.replace(`https:${window.location.href.substring(window.location.protocol.length)}`);
-}
-
 pingApi().then(response => updateSolveApiStatus(response));
 var pinger = setInterval(() => {
 	pingApi().then(response => updateSolveApiStatus(response))
